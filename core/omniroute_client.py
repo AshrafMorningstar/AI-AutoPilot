@@ -169,14 +169,14 @@ class OmniRouteClient:
         ]
         for idx, model in enumerate(routes):
             if idx > 0:
-                print(f"[OmniRoute] ⚡ Failover → switching to '{model}'", flush=True)
+                print(f"[OmniRoute] [FAILOVER] -> switching to '{model}'", flush=True)
             try:
                 code, resp = self.chat(model, messages, max_tokens=max_tokens)
                 if code == 200 and "choices" in resp:
                     return resp["choices"][0]["message"]["content"]
                 err_str = str(resp).lower()
                 if any(s in err_str for s in FAILOVER_SIGNALS):
-                    print(f"[OmniRoute] Rate-limit signal detected on '{model}'. Failing over…", flush=True)
+                    print(f"[OmniRoute] Rate-limit signal detected on '{model}'. Failing over...", flush=True)
                     continue
                 print(f"[OmniRoute] '{model}' returned HTTP {code}: {str(resp)[:120]}", flush=True)
             except Exception as e:

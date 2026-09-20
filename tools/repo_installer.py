@@ -107,6 +107,9 @@ def main():
     print(f"   Target : {TARGET_DIR}")
     print(f"   Repos  : {len(REPOSITORIES)}")
     print("=" * 62)
+    print("\n[PRIORITY 1] Core AI Engine Repository:")
+    print("  Link: https://github.com/diegosouzapw/OmniRoute.git")
+    print("  Status: Downloading and verifying OmniRoute core first...\n")
 
     manifest = {}
     ok = fail = 0
