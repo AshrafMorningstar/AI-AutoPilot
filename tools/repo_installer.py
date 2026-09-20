@@ -67,7 +67,7 @@ REPOSITORIES: List[Dict] = [
 ]
 
 
-def _run_git(args: List[str], cwd: str = None, timeout: int = 60) -> Tuple[int, str, str]:
+def _run_git(args: List[str], cwd: str = None, timeout: int = 180) -> Tuple[int, str, str]:
     try:
         r = subprocess.run(
             [GIT] + args,
@@ -91,12 +91,12 @@ def clone_or_update(repo: Dict) -> Tuple[bool, str]:
     if os.path.isdir(os.path.join(dest, ".git")):
         code, out, err = _run_git(["pull", "--ff-only"], cwd=dest)
         if code == 0:
-            return True, f"Updated  → {out or 'already up to date'}"
+            return True, f"Updated -> {out or 'already up to date'}"
         return True, f"Pull warn (kept): {err[:80]}"
     else:
         code, out, err = _run_git(["clone", "--depth", "1", url, dest])
         if code == 0:
-            return True, "Cloned ✓"
+            return True, "Cloned [OK]"
         return False, f"Clone failed: {err[:120]}"
 
 
