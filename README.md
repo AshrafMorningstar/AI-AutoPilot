@@ -39,14 +39,14 @@
 
 ### Windows
 ```bat
-git clone https://github.com/AS-Projects/AI-AutoPilot.git
+git clone https://github.com/AshrafMorningstar/AI-AutoPilot.git
 cd AI-AutoPilot
 INSTALL.bat
 ```
 
 ### macOS / Linux / WSL
 ```bash
-git clone https://github.com/AS-Projects/AI-AutoPilot.git
+git clone https://github.com/AshrafMorningstar/AI-AutoPilot.git
 cd AI-AutoPilot
 chmod +x install.sh && ./install.sh
 ```
@@ -220,6 +220,7 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 **⭐ Star this repo if AI-AutoPilot saved your workflow! ⭐**
 
-[![GitHub stars](https://img.shields.io/github/stars/AS-Projects/AI-AutoPilot?style=social)](https://github.com/AS-Projects/AI-AutoPilot)
+[![GitHub stars](https://img.shields.io/github/stars/AshrafMorningstar/AI-AutoPilot?style=social)](https://github.com/AshrafMorningstar/AI-AutoPilot)
 
 </div>
+
