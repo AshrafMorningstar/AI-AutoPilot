@@ -1,0 +1,49 @@
+name: CI — AI-AutoPilot Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.8", "3.10", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Verify imports
+        run: python -c "from core.omniroute_client import OmniRouteClient; print('Core import OK')"
+
+      - name: Run syntax check
+        run: |
+          python -m py_compile autopilot.py
+          python -m py_compile core/omniroute_client.py
+          python -m py_compile core/failover_supervisor.py
+          python -m py_compile tools/ide_configurator.py
+          python -m py_compile tools/repo_installer.py
+          python -m py_compile tools/key_ingestion.py
+          echo "All syntax checks passed!"
+
+      - name: Test help output
+        run: python autopilot.py --help
+
+      - name: Test key detection
+        run: python -c "
+from tools.key_ingestion import detect_provider
+assert detect_provider('sk-ant-abc123') == 'anthropic'
+assert detect_provider('AIza12345') == 'gemini'
+assert detect_provider('gsk_abc123') == 'groq'
+assert detect_provider('sk-openai123') == 'openai'
+print('Key detection tests passed!')
+"

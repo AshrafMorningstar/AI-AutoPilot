@@ -1,0 +1,71 @@
+# AI-AutoPilot :: OmniRoute Best Settings Guide
+# Best Configuration File for OmniRoute
+# ==========================================
+# Copy relevant sections into OmniRoute Desktop or use via API
+
+# ── ROUTING STRATEGY ─────────────────────────────────────────────────────────
+# Recommended: "priority" — always tries the highest-priority model first.
+# Alternatives: "round-robin" (spread load), "latency" (pick fastest)
+routing_strategy: priority
+
+# ── RESILIENCE PROFILE ───────────────────────────────────────────────────────
+# Recommended: "aggressive" — retries fast, fails over quickly on any error
+# Alternatives: "balanced", "conservative"
+resilience_profile: aggressive
+
+# ── BUDGET GUARD ─────────────────────────────────────────────────────────────
+# Optional: Set a monthly spend cap. OmniRoute will stop routing if exceeded.
+# budget_guard:
+#   monthly_limit_usd: 50
+#   alert_at_percent: 80
+
+# ── COMBOS (Failover Groups) ──────────────────────────────────────────────────
+# Each combo is an ordered list of models. OmniRoute tries them top-to-bottom.
+
+combos:
+
+  # Best for: General coding tasks, Claude Code, Aider, Cursor
+  - name: "Coding Failover"
+    strategy: priority
+    models:
+      - claude-sonnet-4-5          # Best reasoning, primary
+      - claude-3-5-sonnet-20241022 # Claude 3.5 backup
+      - gpt-4o                     # GPT-4o backup
+      - gemini-2.5-pro             # Gemini Pro backup
+      - gemini-2.5-flash           # Fast Gemini backup
+      - groq/llama-3.3-70b-versatile # Groq (instant, free tier)
+      - gpt-4o-mini                # Budget backup
+
+  # Best for: Fast completions, autocomplete, quick questions
+  - name: "Fast Auto Failover"
+    strategy: latency
+    models:
+      - groq/llama-3.3-70b-versatile # Groq is fastest
+      - gemini-2.5-flash             # Google Flash
+      - gpt-4o-mini                  # OpenAI mini
+      - claude-haiku-3               # Claude Haiku
+
+  # Best for: Long documents, research, analysis (high context window)
+  - name: "Research & Analysis"
+    strategy: priority
+    models:
+      - gemini-2.5-pro-exp  # 2M token context
+      - claude-opus-4       # Deep reasoning
+      - gpt-4o              # 128k context
+      - gemini-2.5-flash    # 1M context backup
+
+  # Best for: Image understanding, screenshots, diagrams
+  - name: "Vision Tasks"
+    strategy: priority
+    models:
+      - gpt-4o              # Best vision
+      - claude-sonnet-4-5   # Claude vision
+      - gemini-2.5-pro      # Gemini vision
+
+  # Best for: Free / zero-cost usage
+  - name: "Free Tier Only"
+    strategy: round-robin
+    models:
+      - groq/llama-3.3-70b-versatile
+      - groq/mixtral-8x7b
+      - gemini-2.5-flash    # Google free tier

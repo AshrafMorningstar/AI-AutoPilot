@@ -1,0 +1,50 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Environment files with secrets
+.env
+.env.local
+*.env
+
+# API Keys — never commit these!
+api_keys/
+*.key
+*.keys
+
+# Progress and runtime files
+progress.md
+*.log
+
+# IDE settings
+.vscode/
+.idea/
+*.suo
+*.user
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Repositories cloned by repo_installer
+ai_repositories/
+
+# Test artifacts
+.pytest_cache/
+htmlcov/
+.coverage
