@@ -90,12 +90,20 @@ def cmd_status(_args):
 
     print("\n  Active Combos:")
     _, combos_data = client.list_combos()
-    if isinstance(combos_data, list):
-        for c in combos_data:
+    # Handle both formats: direct list OR {'combos': [...], 'total': N}
+    if isinstance(combos_data, dict) and "combos" in combos_data:
+        combos_list = combos_data["combos"]
+    elif isinstance(combos_data, list):
+        combos_list = combos_data
+    else:
+        combos_list = []
+
+    if combos_list:
+        for c in combos_list:
             name  = c.get("name", "?")
             strat = c.get("strategy", "?")
             mods  = len(c.get("models", []))
-            print(f"    • {name:<30} [{strat}] {mods} models")
+            print(f"    * {name:<30} [{strat}] {mods} models")
     else:
         print(f"  (Could not list combos: {combos_data})")
 
